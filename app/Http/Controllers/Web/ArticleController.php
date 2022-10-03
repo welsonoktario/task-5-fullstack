@@ -21,9 +21,16 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $category = request('category');
         $userId = Auth::id();
+
         $articles = Article::query()
-            ->where('user_id', $userId)
+            ->when($category, function ($q) use ($category) {
+                return $q->whereHas('category', function ($q) use ($category) {
+                    return $q->where('name', 'like', "%$category%");
+                });
+            })
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return View::make('article.index', compact('articles'));
@@ -55,10 +62,13 @@ class ArticleController extends Controller
         try {
             $user = User::find(Auth::id());
 
+            $imgName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', "{$user->id}-{$request->title}"))) . '.jpeg';
+            $image = $request->image->storeAs('images', $imgName);
+
             $user->articles()->create([
                 'title' => $request->title,
                 'content' => $request->content,
-                'image' => $request->image,
+                'image' => $image,
                 'category_id' => $request->category
             ]);
 
@@ -67,14 +77,11 @@ class ArticleController extends Controller
             DB::rollBack();
 
             return Redirect::back()
-                ->withErrors([
-                    'msg' => 'Terjadi kesalahan menambah artikel',
-                    'error' => $e->getMessage()
-                ])
+                ->withError($e->getMessage())
                 ->withInput($request->all());
         }
 
-        return Redirect::route('article.index')->with(
+        return Redirect::route('home')->with(
             'status',
             'Artikel berhasil ditambahkan'
         );
@@ -88,7 +95,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $article->load('category');
+        $article->load(['category', 'user']);
 
         return View::make('article.show', compact('article'));
     }
@@ -105,7 +112,7 @@ class ArticleController extends Controller
         $user = User::find(Auth::id());
         $categories = $user->categories;
 
-        return View::make('article.create', compact('categories'));
+        return View::make('article.edit', compact(['article', 'categories']));
     }
 
     /**

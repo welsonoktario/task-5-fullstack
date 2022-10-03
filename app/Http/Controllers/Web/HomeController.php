@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
 {
-
     /**
      * Show the application dashboard.
      *
@@ -18,10 +17,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $userId = Auth::id();
+        $category = request('category');
+        $author = request('author');
+
         $articles = Article::query()
-            ->where('user_id', $userId)
-            ->orderBy('created_at')
+            ->with(['category', 'user'])
+            ->when($category, function ($q) use ($category) {
+                return $q->whereHas('category', function ($q) use ($category) {
+                    return $q->where('name', 'like', "%$category%");
+                });
+            })
+            ->when($author, function ($q) use ($author) {
+                return $q->whereHas('user', function ($q) use ($author) {
+                    return $q->where('name', 'like', "%$author%");
+                });
+            })
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return View::make('home', compact('articles'));

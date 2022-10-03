@@ -9,6 +9,8 @@ class Article extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     /**
      * Article belongs to one User
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

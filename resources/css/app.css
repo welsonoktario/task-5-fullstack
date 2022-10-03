@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.article-title {
+    @apply text-xl font-semibold hover:text-indigo-600 transition-colors;
+}
+
+.article-content {
+    @apply mt-2 text-gray-500 dark:text-zinc-400 overflow-hidden overflow-ellipsis text-sm;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* number of lines to show */
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+}

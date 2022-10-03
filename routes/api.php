@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'v1',
     'middleware' => ['auth:api'],
-    'as' => 'api'
+    'as' => 'api.'
 ], function () {
     Route::apiResource('posts', ArticleController::class);
 });

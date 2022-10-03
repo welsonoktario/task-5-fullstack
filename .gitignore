@@ -2,11 +2,14 @@
 /public/build
 /public/hot
 /public/storage
+/public/js
+/public/css
 /storage/*.key
 /vendor
 .env
 .env.backup
 .phpunit.result.cache
+.rnd
 Homestead.json
 Homestead.yaml
 auth.json

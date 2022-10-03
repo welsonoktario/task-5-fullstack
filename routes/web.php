@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\ArticleController;
+use App\Http\Controllers\Web\CategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +25,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
 
 Route::resources([
-    'article' => ArticleController::class
+    'article' => ArticleController::class,
+    'category' => CategoryController::class
 ]);

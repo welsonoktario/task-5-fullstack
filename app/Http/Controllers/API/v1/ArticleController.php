@@ -24,7 +24,6 @@ class ArticleController extends Controller
         $userId = Auth::id();
 
         $articles = Article::query()
-            ->where('user_id', $userId)
             ->paginate()
             ->withQueryString();
 
@@ -89,6 +88,10 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+        if ($article->user_id !== Auth::id()) {
+            return $this->fail('Unauthenticated', 403);
+        }
+
         DB::beginTransaction();
 
         try {
@@ -120,6 +123,10 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        if ($article->user_id !== Auth::id()) {
+            return $this->fail('Unauthenticated', 403);
+        }
+
         DB::beginTransaction();
 
         try {

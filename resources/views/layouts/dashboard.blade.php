@@ -5,7 +5,7 @@
     <x-navbar></x-navbar>
 
     <main class="pt-24 flex min-h-screen">
-      <div class="container mx-auto bg-gray-200 dark:bg-zinc-900">
+      <div class="container mx-6 md:mx-auto dark:bg-zinc-900">
         @yield('content')
       </div>
     </main>

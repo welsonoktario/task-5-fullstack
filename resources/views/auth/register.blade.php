@@ -3,13 +3,13 @@
 @section('content')
   <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900 leading-9">
+      <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-gray-50 leading-9">
         Create a new account
       </h2>
 
-      <p class="mt-2 text-sm text-center text-gray-600 leading-5 max-w">
+      <p class="mt-2 text-sm text-center text-gray-600 dark:text-gray-200 leading-5 max-w">
         Or
-        <a href="{{ route('login') }}"
+        <a href="{{ route('register') }}"
           class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
           sign in to your account
         </a>
@@ -17,16 +17,17 @@
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
-        <form wire:submit.prevent="register">
+      <div class="px-4 py-8 bg-white dark:bg-zinc-800 shadow sm:rounded-lg sm:px-10">
+        <form action="{{ route('register') }}" method="POST">
+          @csrf
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 leading-5">
+            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-200 leading-5">
               Name
             </label>
 
             <div class="mt-1 rounded-md shadow-sm">
-              <input wire:model.lazy="name" id="name" type="text" required autofocus
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('name') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
+              <input name="name" id="name" type="text" required autofocus
+                class="appearance-none block w-full px-3 py-2 dark:bg-zinc-700 dark:text-zinc-200 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('name') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
             </div>
 
             @error('name')
@@ -35,13 +36,13 @@
           </div>
 
           <div class="mt-6">
-            <label for="email" class="block text-sm font-medium text-gray-700 leading-5">
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 leading-5">
               Email address
             </label>
 
             <div class="mt-1 rounded-md shadow-sm">
-              <input wire:model.lazy="email" id="email" type="email" required
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('email') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
+              <input name="email" id="email" type="email" required
+                class="appearance-none block w-full px-3 py-2 dark:bg-zinc-700 dark:text-zinc-200 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('email') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
             </div>
 
             @error('email')
@@ -50,13 +51,13 @@
           </div>
 
           <div class="mt-6">
-            <label for="password" class="block text-sm font-medium text-gray-700 leading-5">
+            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-200 leading-5">
               Password
             </label>
 
             <div class="mt-1 rounded-md shadow-sm">
-              <input wire:model.lazy="password" id="password" type="password" required
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('password') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
+              <input name="password" id="password" type="password" required
+                class="appearance-none block w-full px-3 py-2 dark:bg-zinc-700 dark:text-zinc-200 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('password') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red @enderror" />
             </div>
 
             @error('password')
@@ -65,13 +66,14 @@
           </div>
 
           <div class="mt-6">
-            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 leading-5">
+            <label for="password_confirmation"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-200 leading-5">
               Confirm Password
             </label>
 
             <div class="mt-1 rounded-md shadow-sm">
-              <input wire:model.lazy="passwordConfirmation" id="password_confirmation" type="password" required
-                class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 appearance-none rounded-md focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+              <input name="password_confirmation" id="password_confirmation" type="password" required
+                class="block w-full px-3 py-2 dark:bg-zinc-700 placeholder-gray-400 border border-gray-300 dark:border-gray-600 appearance-none rounded-md focus:outline-none focus:ring-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
             </div>
           </div>
 
